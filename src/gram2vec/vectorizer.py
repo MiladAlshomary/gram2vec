@@ -192,13 +192,10 @@ def _remove_emojis(document:str) -> str:
     new_string = demoji.replace(document, "").split()
     return " ".join(new_string)
 
-def _process_documents(documents:Iterable[str]) -> List[Gram2VecDocument]:
+def _process_documents(documents:Iterable[str], batch_size:int=10) -> List[Gram2VecDocument]:
     """Converts all provided documents into Document instances, which encapsulates the raw text and spacy doc"""
     # Convert iterator to list to avoid consuming it
     documents = list(documents)
-    
-    # Process in parallel with batching
-    batch_size = 1000  # Adjust based on your typical document size
     
     # Pre-clean all documents
     cleaned_docs = [_remove_emojis(doc) for doc in documents]
@@ -300,7 +297,7 @@ def from_documents(documents:Iterable[str],
     --------
         pd.DataFrame: dataframe where each row is a document and column is a low level feature
     """
-    documents = _process_documents(documents)
+    documents = _process_documents(documents, config['batch_size'])
     if include_content_embedding:
         print("Gram2Vec: 'include_content_embedding' flag set to True. Including document word2vec embedding...")
         print("Gram2Vec: (WARNING) embedding should only be used for experiments, not attribution")
