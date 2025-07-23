@@ -282,7 +282,7 @@ def from_jsonlines(path:str,
     
 def from_documents(documents:Iterable[str], 
                    config:Optional[Dict]=None, 
-                   include_content_embedding=False, batch_size) -> pd.DataFrame:
+                   include_content_embedding=False, batch_size=16) -> pd.DataFrame:
     """
     Given an iterable of documents, creates a stylistic feature vector matrix. Document IDs and author IDs are NOT included\n
     Args:
