@@ -282,7 +282,7 @@ def from_jsonlines(path:str,
     
 def from_documents(documents:Iterable[str], 
                    config:Optional[Dict]=None, 
-                   include_content_embedding=False) -> pd.DataFrame:
+                   include_content_embedding=False, batch_size) -> pd.DataFrame:
     """
     Given an iterable of documents, creates a stylistic feature vector matrix. Document IDs and author IDs are NOT included\n
     Args:
@@ -297,7 +297,7 @@ def from_documents(documents:Iterable[str],
     --------
         pd.DataFrame: dataframe where each row is a document and column is a low level feature
     """
-    documents = _process_documents(documents, config['batch_size'])
+    documents = _process_documents(documents, batch_size)
     if include_content_embedding:
         print("Gram2Vec: 'include_content_embedding' flag set to True. Including document word2vec embedding...")
         print("Gram2Vec: (WARNING) embedding should only be used for experiments, not attribution")
